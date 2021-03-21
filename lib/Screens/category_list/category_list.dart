@@ -39,7 +39,7 @@ class CategoryList extends StatelessWidget {
                       child: ListTile(
                         onTap: () {
                           Navigator.pushNamed(context, ProductDetail.routeName,
-                              arguments: snapshot.data[index]);
+                              arguments: snapshot.data[index].id);
                         },
                         leading: Image.network(snapshot.data[index].image),
                         title: Text(snapshot.data[index].name),

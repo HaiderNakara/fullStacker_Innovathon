@@ -76,17 +76,20 @@ class _SignInScreenState extends State<SignInScreen> {
               SizedBox(
                 height: 50,
               ),
-              ElevatedButton(
-                onPressed: () async {
-                  if (_formKey.currentState.validate()) {
-                    context.read<AuthenticationService>().signIn(
-                          context: context,
-                          email: _emailController.text,
-                          password: _passwordController.text,
-                        );
-                  }
-                },
-                child: Text("Sign In"),
+              Container(
+                color: Theme.of(context).accentColor,
+                child: ElevatedButton(
+                  onPressed: () async {
+                    if (_formKey.currentState.validate()) {
+                      context.read<AuthenticationService>().signIn(
+                            context: context,
+                            email: _emailController.text,
+                            password: _passwordController.text,
+                          );
+                    }
+                  },
+                  child: Text("Sign In"),
+                ),
               ),
               SizedBox(
                 height: 20,
@@ -102,7 +105,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         Navigator.pushNamed(context, SignUpScreen.routeName),
                     child: Text(
                       "Sign up",
-                      style: TextStyle(color: Theme.of(context).primaryColor),
+                      style: TextStyle(color: Theme.of(context).accentColor),
                     ),
                   ),
                 ],

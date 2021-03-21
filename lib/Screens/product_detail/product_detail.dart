@@ -1,24 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:inventory_management_system/Screens/add_product/product.dart';
 import 'package:inventory_management_system/Screens/edit_product/edit_product.dart';
+import 'package:inventory_management_system/db.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class ProductDetail extends StatelessWidget {
   static String routeName = "/productsdetail";
   @override
   Widget build(BuildContext context) {
-    Product lol = ModalRoute.of(context).settings.arguments;
+    DatabaseService db = DatabaseService();
+    String lol = ModalRoute.of(context).settings.arguments;
     return Scaffold(
       appBar: AppBar(
         actions: [
-          IconButton(
-              icon: Icon(Icons.edit),
-              onPressed: () {
-                Navigator.pushNamed(
-                  context,
-                  EditProduct.routeName,
-                  arguments: lol,
-                );
+          StreamBuilder(
+              stream: db.getProductById(lol),
+              builder: (context, AsyncSnapshot<Product> snapshot) {
+                return IconButton(
+                    icon: Icon(Icons.edit),
+                    onPressed: () {
+                      Navigator.pushNamed(
+                        context,
+                        EditProduct.routeName,
+                        arguments: snapshot.data,
+                      );
+                    });
               }),
         ],
       ),
@@ -26,32 +32,44 @@ class ProductDetail extends StatelessWidget {
         child: Column(
           children: [
             Expanded(
-              child: Column(
-                children: [
-                  Card(
-                    child: Column(
+              child: StreamBuilder(
+                stream: db.getProductById(lol),
+                builder: (context, AsyncSnapshot<Product> snapshot) {
+                  if (snapshot.hasData) {
+                    return Column(
                       children: [
-                        Image.network(
-                          lol.image,
-                          height: 200,
+                        Card(
+                          child: Column(
+                            children: [
+                              Image.network(
+                                snapshot.data.image,
+                                height: 200,
+                                width: double.infinity,
+                              ),
+                            ],
+                          ),
                         ),
                         Text(
-                          lol.name,
-                          style: TextStyle(fontSize: 10),
+                          "Name of the product - ${snapshot.data.name}",
+                          style: TextStyle(fontSize: 15),
+                        ),
+                        Text(
+                          "Specification - ${snapshot.data.specification}",
+                          style: TextStyle(fontSize: 15),
+                        ),
+                        // Text(snapshot.data.companyName),
+                        // Text(snapshot.data.dateOfPurchase.toString()),
+                        // Text(snapshot.data.sellingDate.toString()),
+                        QrImage(
+                          data: snapshot.data.id,
+                          version: QrVersions.auto,
+                          size: 200.0,
                         ),
                       ],
-                    ),
-                  ),
-                  Text(lol.specification),
-                  Text(lol.companyName),
-                  Text(lol.dateOfPurchase.toString()),
-                  Text(lol.sellingDate.toString()),
-                  QrImage(
-                    data: lol.id,
-                    version: QrVersions.auto,
-                    size: 200.0,
-                  ),
-                ],
+                    );
+                  }
+                  return SizedBox.shrink();
+                },
               ),
             ),
           ],

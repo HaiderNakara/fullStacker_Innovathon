@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 
 import 'Screens/Home/home_screen.dart';
 import 'Screens/sign_in/sign_in_screen.dart';
+import 'Screens/theme/theme.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,6 +21,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider(create: (context) => ThemeNotifier()),
         Provider<AuthenticationService>(
           create: (_) => AuthenticationService(FirebaseAuth.instance),
         ),
@@ -30,13 +32,16 @@ class MyApp extends StatelessWidget {
         )
       ],
       builder: (context, child) {
+        final themeProvider = Provider.of<ThemeNotifier>(context);
         return MaterialApp(
           debugShowCheckedModeBanner: false,
           routes: routes,
           title: 'Flutter Demo',
+          themeMode: themeProvider.darkTheme ? ThemeMode.dark : ThemeMode.light,
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),
+          darkTheme: ThemeData.dark(),
           home: AuthenticationWrapper(),
         );
       },

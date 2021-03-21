@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:inventory_management_system/Screens/add_category/add_category.dart';
 import 'package:inventory_management_system/Screens/add_category/category.dart';
 import 'package:inventory_management_system/Screens/add_product/add_product.dart';
+import 'package:inventory_management_system/Screens/camera_scanner/camera_scanner.dart';
 import 'package:inventory_management_system/Screens/category_list/category_list.dart';
+import 'package:inventory_management_system/Screens/theme/theme_button.dart';
 import 'package:inventory_management_system/db.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -11,9 +13,22 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: Drawer(
+        child: ListView(
+          children: [
+            ListTile(
+              title: Text("logout"),
+              trailing: Icon(Icons.logout),
+            ),
+            ChangeThemeButton()
+          ],
+        ),
+      ),
       appBar: AppBar(
         leading: IconButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pushNamed(context, CameraScanner.routeName);
+          },
           icon: Icon(Icons.camera_alt),
         ),
         title: Text("Home"),

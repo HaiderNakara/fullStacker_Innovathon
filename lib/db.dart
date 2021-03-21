@@ -43,4 +43,19 @@ class DatabaseService {
         snaps.docs.map((e) => Category.fromFirestore(e.data())).toList());
     return lol;
   }
+
+  getProductById(var id) {
+    var lol = _db
+        .collection("Products")
+        .doc(id)
+        .snapshots()
+        .map((snaps) => Product.fromFirestore(snaps.data()));
+    return lol;
+  }
+
+  getProductByIdStatus(var id) {
+    var lol = _db.collection("Products").doc(id).snapshots().isEmpty;
+
+    return lol;
+  }
 }
