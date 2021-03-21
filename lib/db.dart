@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:inventory_management_system/Screens/add_category/category.dart';
 import 'package:inventory_management_system/Screens/add_product/add_product.dart';
+import 'package:inventory_management_system/Screens/add_product/product.dart';
 
 class DatabaseService {
   FirebaseFirestore _db = FirebaseFirestore.instance;
@@ -9,6 +10,16 @@ class DatabaseService {
     Map data,
   ) {
     return _db.collection("Products").doc(data["id"]).set(data);
+  }
+
+  Stream<List<Product>> getProductStream(var category) {
+    var lol = _db
+        .collection("Products")
+        .where("category", isEqualTo: category)
+        .snapshots()
+        .map((snaps) =>
+            snaps.docs.map((e) => Product.fromFirestore(e.data())).toList());
+    return lol;
   }
 
   Future<void> addCategory(Map data) {

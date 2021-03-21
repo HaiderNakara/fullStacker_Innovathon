@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:inventory_management_system/Screens/add_category/add_category.dart';
 import 'package:inventory_management_system/Screens/add_category/category.dart';
 import 'package:inventory_management_system/Screens/add_product/add_product.dart';
+import 'package:inventory_management_system/Screens/category_list/category_list.dart';
 import 'package:inventory_management_system/db.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -11,6 +12,10 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          onPressed: () {},
+          icon: Icon(Icons.camera_alt),
+        ),
         title: Text("Home"),
         actions: [
           IconButton(
@@ -35,7 +40,9 @@ class HomeScreen extends StatelessWidget {
                           TextButton(
                             onPressed: () {
                               Navigator.pushNamed(
-                                  context, AddProduct.routeName);
+                                context,
+                                AddProduct.routeName,
+                              );
                             },
                             child: Text("Add product"),
                           ),
@@ -56,7 +63,12 @@ class HomeScreen extends StatelessWidget {
                   itemCount: snapshot.data.length,
                   itemBuilder: (context, index) {
                     return ListTile(
+                      leading: Image.network(snapshot.data[index].image),
                       title: Text(snapshot.data[index].name),
+                      onTap: () {
+                        Navigator.pushNamed(context, CategoryList.routeName,
+                            arguments: snapshot.data[index]);
+                      },
                     );
                   },
                 );
