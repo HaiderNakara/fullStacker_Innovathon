@@ -2,7 +2,6 @@ class Product {
   final String name;
   final String specification;
   final dateOfPurchase;
-
   final sellingDate;
   final String companyName;
   final String modelNumber;

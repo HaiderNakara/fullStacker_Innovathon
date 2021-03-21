@@ -12,6 +12,7 @@ class CategoryList extends StatelessWidget {
   Widget build(BuildContext context) {
     Category lol = ModalRoute.of(context).settings.arguments;
     return Scaffold(
+      appBar: AppBar(),
       body: Column(
         children: [
           Expanded(
@@ -22,13 +23,27 @@ class CategoryList extends StatelessWidget {
                 return ListView.builder(
                   itemCount: snapshot.data.length,
                   itemBuilder: (context, index) {
-                    return ListTile(
-                      onTap: () {
-                        Navigator.pushNamed(context, ProductDetail.routeName,
-                            arguments: snapshot.data[index]);
-                      },
-                      leading: Image.network(snapshot.data[index].image),
-                      title: Text(snapshot.data[index].name),
+                    return Dismissible(
+                      onDismissed: (value) =>
+                          db.deleteProduct(snapshot.data[index].id),
+                      background: Container(
+                        child: Icon(Icons.delete),
+                        color: Theme.of(context).primaryColor,
+                        alignment: Alignment.centerRight,
+                        padding: EdgeInsets.only(
+                          right: 20,
+                        ),
+                      ),
+                      key: ValueKey(snapshot.data[index].id),
+                      direction: DismissDirection.endToStart,
+                      child: ListTile(
+                        onTap: () {
+                          Navigator.pushNamed(context, ProductDetail.routeName,
+                              arguments: snapshot.data[index]);
+                        },
+                        leading: Image.network(snapshot.data[index].image),
+                        title: Text(snapshot.data[index].name),
+                      ),
                     );
                   },
                 );

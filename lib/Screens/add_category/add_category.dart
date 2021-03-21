@@ -35,7 +35,7 @@ class _AddCategoryState extends State<AddCategory> {
 
   uploadImage(var image) async {
     if (image != null) {
-      final ref = FirebaseStorage.instance.ref().child("lol");
+      final ref = FirebaseStorage.instance.ref().child(image.toString());
       await ref.putFile(image);
       return await ref.getDownloadURL();
       // await FirebaseFirestore.instance.collection("$subject").add({

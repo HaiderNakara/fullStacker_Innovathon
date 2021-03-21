@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:inventory_management_system/Screens/add_category/category.dart';
-import 'package:inventory_management_system/Screens/add_product/add_product.dart';
 import 'package:inventory_management_system/Screens/add_product/product.dart';
 
 class DatabaseService {
@@ -10,6 +9,19 @@ class DatabaseService {
     Map data,
   ) {
     return _db.collection("Products").doc(data["id"]).set(data);
+  }
+
+  Future<void> editProduct(
+    Map data,
+    var id,
+  ) {
+    return _db.collection("Products").doc(id).update(data);
+  }
+
+  Future<void> deleteProduct(
+    var id,
+  ) {
+    return _db.collection("Products").doc(id).delete();
   }
 
   Stream<List<Product>> getProductStream(var category) {

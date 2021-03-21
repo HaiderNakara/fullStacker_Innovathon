@@ -1,6 +1,4 @@
 import 'dart:io';
-import 'dart:math';
-
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -10,14 +8,13 @@ import 'package:inventory_management_system/Screens/add_product/product.dart';
 import 'package:inventory_management_system/db.dart';
 import 'package:uuid/uuid.dart';
 
-class AddProduct extends StatefulWidget {
-  static String routeName = "/AddSProduct";
-
+class EditProduct extends StatefulWidget {
+  static String routeName = "/EditProduct";
   @override
-  _AddProductState createState() => _AddProductState();
+  _EditProductState createState() => _EditProductState();
 }
 
-class _AddProductState extends State<AddProduct> {
+class _EditProductState extends State<EditProduct> {
   final ImagePicker _imagePicker = ImagePicker();
 
   String speccfication;
@@ -31,7 +28,6 @@ class _AddProductState extends State<AddProduct> {
   DateTime selectedPurDate = DateTime.now();
   DateTime selectedSellingDate = DateTime.now();
   String modelNumber;
-
   final _formKey = GlobalKey<FormState>();
   String valueCategory;
   var uuid = Uuid();
@@ -85,9 +81,9 @@ class _AddProductState extends State<AddProduct> {
   }
 
   DatabaseService db = DatabaseService();
-
   @override
   Widget build(BuildContext context) {
+    Product lol = ModalRoute.of(context).settings.arguments;
     return Scaffold(
       appBar: AppBar(),
       body: SingleChildScrollView(
@@ -196,14 +192,14 @@ class _AddProductState extends State<AddProduct> {
                           name: name,
                           specification: speccfication,
                           image: url,
-                          dateOfPurchase: selectedPurDate,
-                          sellingDate: selectedSellingDate,
+                          dateOfPurchase: selectedPurDate.toLocal(),
+                          sellingDate: selectedSellingDate.toLocal(),
                           modelNumber: modelNumber,
                           companyName: companyName,
                           category: valueCategory,
-                          id: uuid.v4(),
+                          id: lol.id,
                         ).toJson();
-                        await db.addProduct(map).then((value) =>
+                        await db.editProduct(map, lol.id).then((value) =>
                             Navigator.pushReplacementNamed(
                                 context, HomeScreen.routeName));
                       }

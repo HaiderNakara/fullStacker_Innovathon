@@ -7,6 +7,7 @@ import 'package:inventory_management_system/Screens/category_list/category_list.
 import 'package:inventory_management_system/Screens/product_detail/product_detail.dart';
 import 'package:inventory_management_system/Screens/sign_in/sign_in_screen.dart';
 import 'package:inventory_management_system/main.dart';
+import 'Screens/edit_product/edit_product.dart';
 import 'Screens/sign_up/sign_up_screen.dart';
 
 final Map<String, WidgetBuilder> routes = {
@@ -19,4 +20,5 @@ final Map<String, WidgetBuilder> routes = {
   CategoryList.routeName: (context) => CategoryList(),
   ProductDetail.routeName: (context) => ProductDetail(),
   CameraScanner.routeName: (context) => CameraScanner(),
+  EditProduct.routeName: (context) => EditProduct(),
 };
