@@ -53,7 +53,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ),
               TextFormField(
                 validator: (String value) {
-                  if (value.length > 6) {
+                  if (value.length < 6) {
                     return "Enter a valid password";
                   }
                   return null;
@@ -80,11 +80,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 obscureText: _reobscureText,
                 controller: _repasswordController,
                 validator: (String value) {
-                  if (value == _passwordController.text) {
+                  if (value.length < 8) {
                     return "Password don't match";
                   }
                   return null;
                 },
+                onSaved: (input) => _repassword = input,
                 decoration: InputDecoration(
                   labelText: "Re Enter your Password",
                   hintText: "Re Enter your Password",
@@ -93,7 +94,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ? Icons.visibility
                         : Icons.visibility_off),
                     onTap: () {
-                      setState(() => _obscureText = !_obscureText);
+                      setState(() => _reobscureText = !_reobscureText);
                     },
                   ),
                 ),

@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:inventory_management_system/Screens/Home/home_screen.dart';
+import 'package:inventory_management_system/Screens/add_category/add_category.dart';
+import 'package:inventory_management_system/Screens/add_product/add_product.dart';
 import 'package:inventory_management_system/Screens/sign_in/sign_in_screen.dart';
 import 'package:inventory_management_system/main.dart';
 
@@ -10,4 +12,6 @@ final Map<String, WidgetBuilder> routes = {
   SignInScreen.routeName: (context) => SignInScreen(),
   SignUpScreen.routeName: (context) => SignUpScreen(),
   AuthenticationWrapper.routeName: (context) => AuthenticationWrapper(),
+  AddCategory.routeName: (context) => AddCategory(),
+  AddProduct.routeName: (context) => AddProduct(),
 };
